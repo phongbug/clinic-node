@@ -60,7 +60,7 @@ Ext.onReady(function () {
         autoLoad: true,
     });
 
-    var girdWLs = Ext.create('Ext.grid.Panel', {
+    var customerGrid = Ext.create('Ext.grid.Panel', {
         renderTo: 'app',
         store: storeCustomer,
         width: Ext.getBody().getViewSize().width,
@@ -207,18 +207,6 @@ Ext.onReady(function () {
                 text: 'Tên bệnh nhân',
                 width: 180,
                 dataIndex: 'name',
-                renderer: (val, _, record) => val,
-                editor: {
-                    completeOnEnter: false,
-
-                    // If the editor config contains a field property, then
-                    // the editor config is used to create the Ext.grid.CellEditor
-                    // and the field property is used to create the editing input field.
-                    field: {
-                        xtype: 'textfield',
-                        allowBlank: false,
-                    },
-                },
             },
 
             {
