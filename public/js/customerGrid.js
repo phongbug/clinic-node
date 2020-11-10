@@ -24,7 +24,7 @@ let Groups,
     });
 Ext.onReady(function () {
     loadScript('js/customerForm.js');
-    // prevent browser call loadScript('js/grid.js') at console log
+    // prevent browser call loadScript('js/*..js') at console log
     if (!isAuthenticated()) return;
     Ext.define('Customer', {
         extend: 'Ext.data.Model',
@@ -36,10 +36,10 @@ Ext.onReady(function () {
             'age',
             'gender',
             'career',
-            'servers',
             'address',
             'disease_type',
-            'appointment_date',
+            're_examination_date',
+            'annual_examination',
             'note',
         ],
     });

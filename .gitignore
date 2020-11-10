@@ -15,3 +15,5 @@ yarn.lock
 extjs
 public/WLs.json
 package-lock.json
+
+public/js/gridWL.js
