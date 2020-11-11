@@ -182,6 +182,9 @@ Ext.onReady(function () {
               storeCustomer.loadData(data);
               //featureGrouping.collapseAll();
             }
+            else{
+              storeCustomer.setGroupField(undefined);
+            }
           },
         },
       },
