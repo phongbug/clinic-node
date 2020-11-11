@@ -289,6 +289,8 @@ Ext.onReady(function () {
         dataIndex: 'disease_type',
       },
       {
+        xtype: 'datecolumn',
+        format: 'd/m/Y',
         text: 'Ngày tái khám',
         width: 120,
         dataIndex: 're_examination_date',
