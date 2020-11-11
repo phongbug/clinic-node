@@ -2,6 +2,7 @@ const auth = require('./auth'),
   db = require('../models'),
   Op = db.Sequelize.Op,
   Customer = db.customer,
+  log = console.log,
   create = (req, res) => {
     try {
       if (auth.isAuthenticated) {
@@ -19,7 +20,7 @@ const auth = require('./auth'),
           note: body.note,
         };
         log(customer);
-        Customer.create(tutorial)
+        Customer.create(customer)
           .then((data) => {
             res.send({ success: true, data: data });
           })
@@ -28,7 +29,7 @@ const auth = require('./auth'),
               success: false,
               message:
                 err.message ||
-                'Some error occurred while creating the Tutorial.',
+                'Some error occurred while creating the customer.',
             });
           });
       } else {
@@ -38,23 +39,47 @@ const auth = require('./auth'),
       res.send({ success: false, message: error.message });
     }
   },
-  findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-
-    Tutorial.findAll({ where: condition })
+  list = (_, res) => {
+    Customer.findAll()
       .then((data) => {
         res.send(data);
       })
       .catch((err) => {
         res.status(500).send({
+          success: false,
           message:
-            err.message || 'Some error occurred while retrieving tutorials.',
+            err.message || 'Some error occurred while retrieving customer.',
+        });
+      });
+  },
+  update = (req, res) => {
+    const id = req.body.id;
+    Customer.update(req.body, {
+      where: { id: id },
+    })
+      .then((num) => {
+        log('num:%s', num)
+        if (num[0] === 1) {
+          res.send({
+            success: true,
+            message: 'Customer was updated successfully.',
+          });
+        } else {
+          res.send({
+            success: false,
+            message: `Thông tin không có gì thay đổi`,
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: 'Error updating Customer with id=' + id + ' ' + err.message,
         });
       });
   };
 
 module.exports = {
   create,
-  findAll,
+  list,
+  update,
 };
