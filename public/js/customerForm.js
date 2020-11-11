@@ -164,11 +164,14 @@ var customerForm = Ext.create('Ext.form.Panel', {
                   case 'create':
                     // add new record
                     let grid = Ext.getCmp('customerGrid'),
-                      store = grid.getStore();
-                    store.insert(
-                      store.getData().getCount(),
-                      action.result.data
+                      store = grid.getStore(),
+                      record = action.result.data;
+                    // fix bind new record(just added) to form
+                    record.re_examination_date = record.re_examination_date.substr(
+                      0,
+                      10
                     );
+                    store.insert(store.getData().getCount(), record);
                     // reset form
                     customerForm.reset();
                     break;
@@ -178,11 +181,15 @@ var customerForm = Ext.create('Ext.form.Panel', {
                     break;
                 }
               }
-              Ext.getCmp('btnSubmitCustomerForm').setIcon(customerFormAction.icon);
+              Ext.getCmp('btnSubmitCustomerForm').setIcon(
+                customerFormAction.icon
+              );
             },
             failure: function (form, action) {
               Ext.Msg.alert('Thông báo lỗi', action.result.message);
-              Ext.getCmp('btnSubmitCustomerForm').setIcon(customerFormAction.icon);
+              Ext.getCmp('btnSubmitCustomerForm').setIcon(
+                customerFormAction.icon
+              );
             },
           });
         }
