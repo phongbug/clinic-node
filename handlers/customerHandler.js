@@ -1,6 +1,5 @@
 const auth = require('./auth'),
   db = require('../models'),
-  Op = db.Sequelize.Op,
   Customer = db.customer,
   log = console.log,
   create = (req, res) => {
@@ -22,6 +21,8 @@ const auth = require('./auth'),
         log(customer);
         Customer.create(customer)
           .then((data) => {
+            //log(data)
+            //data.customer.dataValues.re_examination_date = data.customer.dataValues.re_examination_date.substr(0,10)
             res.send({ success: true, data: data });
           })
           .catch((err) => {
@@ -107,5 +108,5 @@ module.exports = {
   create,
   list,
   update,
-  deleteCustomer
+  deleteCustomer,
 };
