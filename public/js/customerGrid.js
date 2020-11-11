@@ -5,7 +5,7 @@ let Groups,
     startCollapsed: true,
     showSummaryRow: false,
     groupHeaderTpl: [
-      '<div style="color:#d14836; font-weight: bold">{name:this.formatName}<span style="color:green; font-weight: normal"> ({rows.length} {[values.rows.length > 1 ? "White Labels" : "White Label"]})</span></div>',
+      '<div style="color:#d14836; font-weight: bold">{name:this.formatName}<span style="color:green; font-weight: normal"> ({rows.length} Bệnh nhân)</span></div>',
       {
         formatName: (name) => {
           for (let i = 0; i < Groups.items.length; i++) {
@@ -22,9 +22,24 @@ let Groups,
     ],
   }),
   actions = {
-    create: { name: 'create', label: 'Thêm', icon: '' },
-    update: { name: 'update', label: 'Cập nhật', icon: '' },
-    delete: { name: 'delete', label: 'Xóa', icon: '' },
+    create: {
+      name: 'create',
+      label: 'Thêm',
+      icon:
+        'https://icons.iconarchive.com/icons/icojam/blue-bits/16/user-add-icon.png',
+    },
+    update: {
+      name: 'update',
+      label: 'Cập nhật',
+      icon:
+        'https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-9/16/edit-file-icon.png',
+    },
+    delete: {
+      name: 'delete',
+      label: 'Xóa',
+      icon:
+        'https://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/16/Actions-edit-delete-icon.png',
+    },
     find: { name: 'find', label: 'Tìm kiếm', icon: '' },
     logout: { name: 'logout', label: 'Đăng xuất', icon: '' },
   },
@@ -60,14 +75,11 @@ Ext.onReady(function () {
       },
     },
     listeners: {
-        load: function (_, records, successful, operation, eOpts) {
-          log(records)
-          data = records
-          Groups = storeCustomer.getGroups();
-          log(Groups);
-          //storeCustomer.loadData(data);
-        },
+      load: function (_, records, successful, operation, eOpts) {
+        data = records;
+        Groups = storeCustomer.getGroups();
       },
+    },
     autoLoad: true,
   });
 
@@ -77,7 +89,9 @@ Ext.onReady(function () {
     store: storeCustomer,
     width: Ext.getBody().getViewSize().width,
     height: Ext.getBody().getViewSize().height,
-    title: 'Customers',
+    icon:
+      'https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/16/42491-hospital-icon.png',
+    title: 'Quản lý bệnh nhân',
     plugins: [
       'gridfilters',
       //'cellediting'
@@ -93,20 +107,19 @@ Ext.onReady(function () {
       featureGrouping,
     ],
     listeners: {
-      viewready: (grid) => {
+      viewready: (_) => {
         loadScript('js/customerForm.js');
       },
-      itemclick: function (gridview, record) {
-        //let customerForm = Ext.getCmp('customerForm');
-        customerFormAction = actions.update;
-        customerForm.setHidden(false);
-        customerForm.loadRecord(record);
-        resetButton = customerForm
-          .query('#btnResetCustomerForm')[0]
-          .setDisabled(true);
-        submitButton = customerForm
-          .query('#btnSubmitCustomerForm')[0]
-          .setText(actions.update.label);
+      cellclick(grid, td, cellIndex, record, tr, rowIndex, e, eOpts) {
+        if (cellIndex !== 11) {
+          customerFormAction = actions.update;
+          customerForm.setHidden(false);
+          customerForm.loadRecord(record);
+          customerForm.query('#btnResetCustomerForm')[0].setDisabled(true);
+          submitButton = customerForm.query('#btnSubmitCustomerForm')[0];
+          submitButton.setText(actions.update.label);
+          submitButton.setIcon(actions.update.icon);
+        }
       },
     },
     tbar: [
@@ -123,9 +136,9 @@ Ext.onReady(function () {
             customerForm.reset();
             resetButton = customerForm.query('#btnResetCustomerForm')[0];
             resetButton.setDisabled(false);
-            submitButton = customerForm
-              .query('#btnSubmitCustomerForm')[0]
-              .setText(actions.create.label);
+            submitButton = customerForm.query('#btnSubmitCustomerForm')[0];
+            submitButton.setText(customerFormAction.label);
+            submitButton.setIcon(customerFormAction.icon);
           },
         },
       },
@@ -135,12 +148,10 @@ Ext.onReady(function () {
         icon:
           'https://icons.iconarchive.com/icons/graphicloads/100-flat/16/reload-icon.png',
         text: 'Refresh',
-        // other component can not fireEvent to
-        // handler: () => { storeCustomer.clearFilter(); storeCustomer.loadData(data) },
         listeners: {
           click: () => {
             storeCustomer.clearFilter();
-            storeCustomer.reload()
+            storeCustomer.reload();
           },
         },
       },
@@ -175,36 +186,17 @@ Ext.onReady(function () {
         },
       },
       {
-        xtype: 'combo',
-        width: 150,
-        // store: new Ext.data.ArrayStore({
-        //     fields: ['id', 'name'],
-        //     data: listNameWLs,
-        // }),
-        displayField: 'name',
-        valueField: 'id',
-        queryMode: 'local',
-        value: '',
-        id: 'txtCustomerName',
-        itemId: 'txtCustomerName',
-        multiSelect: true,
+        xtype: 'textfield',
+        width: 250,
+        id: 'txtCustomerFindField',
+        itemId: 'txtCustomerFindField',
         enableKeyEvents: true,
-        doQuery: function (queryString, forceAll) {
-          this.expand();
-          this.store.clearFilter(!forceAll);
-
-          if (!forceAll) {
-            this.store.filter(
-              this.displayField,
-              new RegExp(Ext.String.escapeRegex(queryString), 'i')
-            );
-          }
-        },
         listeners: {
-          keypress: function (cb, e) {
-            console.log(cb.getRawValue());
-            storeCustomer.filter('name', cb.getRawValue());
-          },
+          keypress: () => Ext.getCmp('btnFind').fireEvent('click'),
+          keydown: (_, e) =>
+            e.getKey() === e.ENTER
+              ? Ext.getCmp('btnFind').fireEvent('click')
+              : null,
         },
       },
       {
@@ -213,15 +205,31 @@ Ext.onReady(function () {
         id: 'btnFind',
         icon:
           'https://icons.iconarchive.com/icons/zerode/plump/16/Search-icon.png',
-        handler: () =>
-          storeCustomer.getFilters().add({
-            property: 'name',
-            value: Ext.getCmp('txtCustomerName')
-              .getRawValue()
-              .split(',')
-              .map((e) => e.trim().toUpperCase()),
-            operator: 'in',
-          }),
+        listeners: {
+          click: () => {
+            storeCustomer.clearFilter();
+            var searchValue = Ext.getCmp('txtCustomerFindField').getValue();
+            if (!!searchValue) {
+              var filters = [
+                new Ext.util.Filter({
+                  filterFn: function (item) {
+                    return (
+                      item
+                        .get('name')
+                        .toLowerCase()
+                        .indexOf(searchValue.toLowerCase()) > -1 ||
+                      item
+                        .get('phone')
+                        .toLowerCase()
+                        .indexOf(searchValue.toLowerCase()) > -1
+                    );
+                  },
+                }),
+              ];
+              storeCustomer.filter(filters);
+            }
+          },
+        },
       },
       '->',
       {
@@ -260,8 +268,8 @@ Ext.onReady(function () {
       },
 
       {
-        text: 'Năm sinh',
-        width: 80,
+        text: 'Tuổi',
+        width: 60,
         dataIndex: 'age',
       },
       {
@@ -272,17 +280,17 @@ Ext.onReady(function () {
       },
       {
         text: 'Nghề nghiệp',
-        width: 150,
+        width: 100,
         dataIndex: 'career',
       },
       {
         text: 'Loại bệnh',
-        width: 150,
+        width: 100,
         dataIndex: 'disease_type',
       },
       {
         text: 'Ngày tái khám',
-        width: 150,
+        width: 120,
         dataIndex: 're_examination_date',
       },
       {
@@ -294,6 +302,41 @@ Ext.onReady(function () {
         text: 'Ghi chú',
         width: 150,
         dataIndex: 'note',
+      },
+      {
+        xtype: 'actioncolumn',
+        width: 30,
+        tooltip: 'Xóa bệnh nhân',
+        text: 'Xóa',
+        items: [
+          {
+            icon: actions.delete.icon,
+            handler: function (grid, rowIndex, colIndex, item, e, record) {
+              Ext.Msg.confirm(
+                'Xác nhận',
+                'Bạn muốn xóa bệnh nhân này ?',
+                (buttonId) => {
+                  if (buttonId === 'yes') {
+                    let store = grid.getStore();
+                    var recordIndex = store.indexOf(record);
+                    var id = grid.getStore().getAt(recordIndex).get('id');
+                    Ext.Ajax.request({
+                      method: 'GET',
+                      url: hostAPI + '/customer/delete/' + id,
+                      success: function (response) {
+                        //log(response);
+                        store.removeAt(recordIndex);
+                      },
+                      failure: function (response) {
+                        alert(JSON.stringify(response));
+                      },
+                    });
+                  }
+                }
+              );
+            },
+          },
+        ],
       },
     ],
     hidden: false,

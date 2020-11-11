@@ -53,12 +53,12 @@ const auth = require('./auth'),
       });
   },
   update = (req, res) => {
-    const id = req.body.id;
-    Customer.update(req.body, {
+    const id = req.params.id;
+    Customer.deleteCustomer(req.body, {
       where: { id: id },
     })
       .then((num) => {
-        log('num:%s', num)
+        log('num:%s', num);
         if (num[0] === 1) {
           res.send({
             success: true,
@@ -76,10 +76,36 @@ const auth = require('./auth'),
           message: 'Error updating Customer with id=' + id + ' ' + err.message,
         });
       });
+  },
+  deleteCustomer = (req, res) => {
+    const id = req.params.id;
+    Customer.destroy({
+      where: { id: id },
+    })
+      .then((num) => {
+        if (num == 1) {
+          res.send({
+            success: true,
+            message: 'Customer was deleted successfully.',
+          });
+        } else {
+          res.send({
+            success: false,
+            message: `Cannot delete Customer with id=${id}. Maybe Tutorial was not found!`,
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({
+          success: false,
+          message: 'Could not delete Customer with id=' + id,
+        });
+      });
   };
 
 module.exports = {
   create,
   list,
   update,
+  deleteCustomer
 };

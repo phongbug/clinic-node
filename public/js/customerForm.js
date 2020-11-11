@@ -2,6 +2,8 @@ var customerForm = Ext.create('Ext.form.Panel', {
   id: 'customerForm',
   bodyStyle: 'background:transparent',
   title: 'Thông tin bệnh nhân',
+  icon:
+    'https://icons.iconarchive.com/icons/dapino/medical/24/medical-suitecase-icon.png',
   bodyPadding: 15,
   width: 450,
   layout: 'anchor',
@@ -125,6 +127,8 @@ var customerForm = Ext.create('Ext.form.Panel', {
   ],
   buttons: [
     {
+      icon:
+        'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/16/Refresh-icon.png',
       text: 'Reset',
       handler: function () {
         this.up('form').getForm().reset();
@@ -141,7 +145,7 @@ var customerForm = Ext.create('Ext.form.Panel', {
       // bind: {
       //   disabled: customerFormAction.label === 'update',
       // },
-      icon: '',
+      icon: customerFormAction.icon,
       formBind: true,
       disabled: false,
       handler: function () {
@@ -158,12 +162,15 @@ var customerForm = Ext.create('Ext.form.Panel', {
               else {
                 switch (customerFormAction.name) {
                   case 'create':
+                    // add new record
                     let grid = Ext.getCmp('customerGrid'),
                       store = grid.getStore();
                     store.insert(
                       store.getData().getCount(),
                       action.result.data
                     );
+                    // reset form
+                    customerForm.reset();
                     break;
                   case 'update':
                     break;
@@ -171,11 +178,11 @@ var customerForm = Ext.create('Ext.form.Panel', {
                     break;
                 }
               }
-              Ext.getCmp('btnSubmitCustomerForm').setIcon('');
+              Ext.getCmp('btnSubmitCustomerForm').setIcon(customerFormAction.icon);
             },
             failure: function (form, action) {
               Ext.Msg.alert('Thông báo lỗi', action.result.message);
-              Ext.getCmp('btnSubmitCustomerForm').setIcon('');
+              Ext.getCmp('btnSubmitCustomerForm').setIcon(customerFormAction.icon);
             },
           });
         }
