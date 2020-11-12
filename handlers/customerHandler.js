@@ -54,8 +54,8 @@ const auth = require('./auth'),
       });
   },
   update = (req, res) => {
-    const id = req.params.id;
-    Customer.deleteCustomer(req.body, {
+    const id = req.body.id;
+    Customer.update(req.body, {
       where: { id: id },
     })
       .then((num) => {
