@@ -5,7 +5,7 @@
  */
 
 var app = require('./app');
-var debug = require('debug')('border-px1-api:server');
+var debug = require('debug')('clinicx-api:server');
 var http = require('http');
 
 /**
