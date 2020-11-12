@@ -14,9 +14,11 @@ yarn start
 
 ## Knowledge
 
-- Algorithm expirated authentication d2-d1 <= 0 
+- Algorithm expirated authentication d2-d1 <= 0
 - s  
 
 ## Common Bugs
+
+- Route is not specify (wrong inside function)
 
 ## Notes

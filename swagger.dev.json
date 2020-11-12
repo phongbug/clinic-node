@@ -22,19 +22,19 @@
   "produces": ["application/json"],
   "paths": {
     "/user/login": {
+      "parameters": [
+        {
+          "name": "password",
+          "in": "body",
+          "required": true,
+          "description": "password",
+          "type": "string"
+        }
+      ],
       "post": {
         "tags": ["THE CLINIC API"],
-        "description": "Login access to white label management site",
+        "description": "Login site",
         "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "password",
-            "in": "body",
-            "required": true,
-            "description": "password",
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Login response",
@@ -45,25 +45,32 @@
         }
       }
     },
-    "/authentication/": {
+    "/customer/create": {
       "post": {
         "tags": ["THE CLINIC API"],
-        "description": "Authentication access to BORDER PX1 by account",
+        "description": "Create a new customer",
         "produces": ["application/json"],
         "parameters": [
           {
-            "name": "authenticationData",
+            "name": "name",
             "in": "body",
             "required": true,
-            "description": "Username & password were encrypted by RSA at client with mode...",
+            "description": "name of customer",
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "body",
+            "required": true,
+            "description": "phone of customer",
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Authentication Response",
+            "description": "Create customer response",
             "schema": {
-              "$ref": "#/definitions/authenticationResponse"
+              "$ref": "#/definitions/createCustomerResponse"
             }
           }
         }
@@ -144,7 +151,7 @@
         }
       }
     },
-    
+
     "siteResponse": {
       "required": ["ID", "Host", "ServerPoolID"],
       "properties": {
