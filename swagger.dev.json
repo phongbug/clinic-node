@@ -68,46 +68,94 @@
         ],
         "responses": {
           "200": {
-            "description": "Create customer response",
-            "schema": {
-              "$ref": "#/definitions/createCustomerResponse"
-            }
+            "description": "Create customer response"
           }
         }
       }
     },
-    "/authentication/status": {
-      "get": {
+    "/customer/update": {
+      "post": {
         "tags": ["THE CLINIC API"],
-        "summary": "Check status of authentication",
-        "responses": {
-          "200": {
-            "description": "Status of current authentication",
-            "schema": {
-              "$ref": "#/definitions/authenticationStatusResponse"
-            }
-          }
-        }
-      }
-    },
-    "/sites": {
-      "get": {
-        "tags": ["THE CLINIC API"],
-        "summary": "Get all sites of white label name",
+        "description": "Updarw a customer",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "name",
-            "in": "path",
+            "in": "body",
             "required": true,
-            "description": "White label name",
+            "description": "name of customer",
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "body",
+            "required": true,
+            "description": "phone of customer",
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Array of site data",
+            "description": "Update customer response",
             "schema": {
-              "$ref": "#/definitions/siteResponse"
+              "$ref": "#/definitions/UDResponse"
+            }
+          }
+        }
+      }
+    },
+    "/customer/list": {
+      "get": {
+        "tags": ["THE CLINIC API"],
+        "summary": "Get all customers",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "page number",
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "description": "start number",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "limit number(quantity record of one page)",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of customer data"
+          }
+        }
+      }
+    },
+    "/customer/delete": {
+      "put": {
+        "tags": ["THE CLINIC API"],
+        "summary": "Get all customers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": false,
+            "description": "customer id",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer delete successully",
+            "schema": {
+              "$ref": "#/definitions/UDResponse"
             }
           }
         }
@@ -115,28 +163,6 @@
     }
   },
   "definitions": {
-    "authenticationStatusResponse": {
-      "required": ["status"],
-      "properties": {
-        "status": {
-          "type": "boolean"
-        }
-      }
-    },
-    "authenticationResponse": {
-      "required": ["success"],
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "cookie": {
-          "type": "string"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
     "loginResponse": {
       "required": ["success"],
       "properties": {
@@ -151,31 +177,14 @@
         }
       }
     },
-
-    "siteResponse": {
-      "required": ["ID", "Host", "ServerPoolID"],
+    "UDResponse": {
+      "required": ["success"],
       "properties": {
-        "ID": {
-          "type": "number",
-          "uniqueItems": true
+        "success": {
+          "type": "boolean"
         },
-        "Host": {
+        "message": {
           "type": "string"
-        },
-        "ServerPoolID": {
-          "type": "number"
-        }
-      }
-    },
-    "infoRSA": {
-      "properties": {
-        "p256dh": {
-          "type": "string",
-          "uniqueItems": true
-        },
-        "auth": {
-          "type": "string",
-          "uniqueItems": true
         }
       }
     }
