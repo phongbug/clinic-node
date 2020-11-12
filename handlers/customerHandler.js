@@ -14,7 +14,10 @@ const auth = require('./auth'),
           career: body.career,
           address: body.address,
           disease_type: body.disease_type,
-          re_examination_date: body.re_examination_date,
+          re_examination_date: body.re_examination_date
+            .split('/')
+            .reverse()
+            .join('-'),
           annual_examination: body.annual_examination,
           note: body.note,
         };
@@ -55,6 +58,10 @@ const auth = require('./auth'),
   },
   update = (req, res) => {
     const id = req.body.id;
+    req.body.re_examination_date = req.body.re_examination_date
+      .split('/')
+      .reverse()
+      .join('-');
     Customer.update(req.body, {
       where: { id: id },
     })
