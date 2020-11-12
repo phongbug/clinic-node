@@ -74,7 +74,7 @@
       }
     },
     "/customer/update": {
-      "post": {
+      "put": {
         "tags": ["THE CLINIC API"],
         "description": "Updarw a customer",
         "produces": ["application/json"],
@@ -138,22 +138,22 @@
         }
       }
     },
-    "/customer/delete": {
-      "put": {
+    "/customer/delete/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": false,
+          "description": "customer id",
+          "type": "number"
+        }
+      ],
+      "delete": {
         "tags": ["THE CLINIC API"],
-        "summary": "Get all customers",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": false,
-            "description": "customer id",
-            "type": "number"
-          }
-        ],
+        "summary": "Delete customer by id",
         "responses": {
           "200": {
-            "description": "Customer delete successully",
+            "description": "Delete customer successully",
             "schema": {
               "$ref": "#/definitions/UDResponse"
             }
@@ -170,10 +170,20 @@
           "type": "boolean"
         },
         "token": {
-          "type": "string"
+          "type": "string",
+          "schema": {
+            "$ref": "#/definitions/token"
+          }
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "token": {
+      "properties": {
+        "expiredDate": {
+          "type": "number"
         }
       }
     },
