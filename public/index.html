@@ -6,12 +6,14 @@
 	<title>Clinic Customer</title>
 	<link rel="stylesheet" href="extjs/6.2/classic/theme-neptune/resources/theme-neptune-all.css" />
 	<link rel="stylesheet" href="extjs/6.2/packages/ux/classic/neptune/resources/ux-all.css" />
+	<link rel="stylesheet" href="css/grid.css" />
 	<!--<link rel="stylesheet" href="extjs/6.2/packages/charts/classic/neptune/resources/charts-all.css" />-->
 	<!--<link rel="stylesheet" href="../stylesheets/font-awesome.min.css" />-->
 	<script src="extjs/6.2/ext-all.js"></script>
 	<!--<script src="extjs/6.2/packages/ux/classic/ux.js"></script>
 	<script src="extjs/6.2/packages/charts/classic/charts.js"></script>-->
 	<script src="js/jsencrypt.min.js"></script>
+	
 </head>
 
 <body>
@@ -34,7 +36,7 @@
 				var crypt = new JSEncrypt()
 				crypt.setKey(tokenPrivateKey)
 				let decyptedData = crypt.decrypt(token);
-				log(decyptedData)
+				//log(decyptedData)
 				if (decyptedData) {
 					let d1 = new Date().getTime(),
 						d2 = new Date(JSON.parse(decyptedData).expiredDate).getTime()

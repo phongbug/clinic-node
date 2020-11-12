@@ -45,8 +45,6 @@ let Groups,
   },
   customerFormAction = actions.create;
 Ext.onReady(function () {
-  //loadScript('js/customerForm.js');
-  // prevent browser call loadScript('js/*..js') at console log
   if (!isAuthenticated()) return;
   Ext.define('Customer', {
     extend: 'Ext.data.Model',
@@ -92,20 +90,9 @@ Ext.onReady(function () {
     icon:
       'https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/16/42491-hospital-icon.png',
     title: 'Quản lý bệnh nhân',
-    plugins: [
-      'gridfilters',
-      //'cellediting'
-    ],
-    // Can not open href
-    //plugins: [{
-    //	ptype: 'cellediting',
-    //	clicksToEdit: 3
-    //}],
+    plugins: ['gridfilters'],
     //selModel: 'cellmodel',
-    features: [
-      //{ ftype: 'grouping' },
-      featureGrouping,
-    ],
+    features: [featureGrouping],
     listeners: {
       viewready: (_) => {
         loadScript('js/customerForm.js');
@@ -181,8 +168,7 @@ Ext.onReady(function () {
               Groups = storeCustomer.getGroups();
               storeCustomer.loadData(data);
               //featureGrouping.collapseAll();
-            }
-            else{
+            } else {
               storeCustomer.setGroupField(undefined);
             }
           },

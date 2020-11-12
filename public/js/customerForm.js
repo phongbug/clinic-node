@@ -135,16 +135,10 @@ var customerForm = Ext.create('Ext.form.Panel', {
         log(customerFormAction.name);
       },
       id: 'btnResetCustomerForm',
-      // bind: {
-      //   disabled: customerFormAction.name === 'update',
-      // },
     },
     {
       id: 'btnSubmitCustomerForm',
       text: customerFormAction.label,
-      // bind: {
-      //   disabled: customerFormAction.label === 'update',
-      // },
       icon: customerFormAction.icon,
       formBind: true,
       disabled: false,
@@ -160,22 +154,28 @@ var customerForm = Ext.create('Ext.form.Panel', {
               if (!action.result.success)
                 Ext.Msg.alert('Kểt Quả', action.result.message);
               else {
+                let grid = Ext.getCmp('customerGrid'),
+                  store = grid.getStore();
                 switch (customerFormAction.name) {
                   case 'create':
                     // add new record
-                    let grid = Ext.getCmp('customerGrid'),
-                      store = grid.getStore(),
-                      record = action.result.data;
-                    // fix bind new record(just added) to form
-                    record.re_examination_date = record.re_examination_date.substr(
-                      0,
-                      10
-                    );
-                    store.insert(store.getData().getCount(), record);
+                    let r = action.result.data,
+                      rIndex = store.getData().getCount();
+                    // fix bind new r(just added) to form
+                    r.re_examination_date = r.re_examination_date.substr(0, 10);
+                    store.insert(rIndex, r);
                     // reset form
                     customerForm.reset();
+
+                    grid.getView().addRowCls(rIndex, 'success');
                     break;
                   case 'update':
+                    let record = form.getValues();
+                    var removedRecord = store.findRecord('id', record.id);
+                    var recordIndex = store.indexOf(removedRecord);
+                    store.remove(removedRecord);
+                    store.insert(recordIndex, record);
+                    grid.getView().addRowCls(recordIndex, 'success');
                     break;
                   case 'delete':
                     break;

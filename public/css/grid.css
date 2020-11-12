@@ -1,0 +1,18 @@
+.success .x-grid-cell{ 
+    background: #ffe2e2; 
+    color: #900; 
+    animation:errorOK 3s;
+    animation-fill-mode: forwards;
+    animation-direction:alternate;
+    -webkit-animation:errorOK 3s;
+    -webkit-animation-fill-mode: forwards; 
+    -webkit-animation-direction:alternate;
+} 
+@keyframes errorOK{
+    from{background:#157fcc;color:blue}
+    to{background:#ffffff;color:black} 
+}
+@-webkit-keyframes errorOK{
+     from{background:#157fcc;color:blue}
+    to{background:#ffffff;color:black}
+}
