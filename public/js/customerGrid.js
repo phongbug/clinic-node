@@ -58,12 +58,6 @@ Ext.onReady(function () {
       'career',
       'address',
       'disease_type',
-      // {
-      //   name: 're_examination_date',
-      //   convert: (value, r) => {
-      //     return value ? Ext.Date.format(value, 'd/m/Y') : null;
-      //   },
-      // },
       're_examination_date',
       'annual_examination',
       'note',
@@ -114,7 +108,6 @@ Ext.onReady(function () {
             record.get('re_examination_date').split('/').reverse().join('-')
           );
           customerForm.loadRecord(record);
-          //customerForm.loadRecord(record);
           customerForm.query('#btnResetCustomerForm')[0].setDisabled(true);
           submitButton = customerForm.query('#btnSubmitCustomerForm')[0];
           submitButton.setText(actions.update.label);

@@ -112,7 +112,6 @@ var customerForm = Ext.create('Ext.form.Panel', {
       value: new Date(),
       //format:'H:i d/m/Y'
       format: 'd/m/Y',
-      altFormats: 'c',
     },
     {
       xtype: 'numberfield',
@@ -151,8 +150,6 @@ var customerForm = Ext.create('Ext.form.Panel', {
       disabled: false,
       handler: function () {
         var form = this.up('form').getForm();
-        //let values = form.getValues();
-        //log(values);
         if (form.isValid()) {
           this.setIcon('img/loading.gif');
           form.submit({
