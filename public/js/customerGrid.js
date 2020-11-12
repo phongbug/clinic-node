@@ -58,12 +58,18 @@ Ext.onReady(function () {
       'career',
       'address',
       'disease_type',
+      // {
+      //   name: 're_examination_date',
+      //   convert: (value, r) => {
+      //     return value ? Ext.Date.format(value, 'd/m/Y') : null;
+      //   },
+      // },
       're_examination_date',
       'annual_examination',
       'note',
     ],
   });
-  var storeCustomer = Ext.create('Ext.data.Store', {
+  let storeCustomer = Ext.create('Ext.data.Store', {
     model: 'Customer',
     proxy: {
       type: 'ajax',
@@ -81,7 +87,7 @@ Ext.onReady(function () {
     autoLoad: true,
   });
 
-  var customerGrid = Ext.create('Ext.grid.Panel', {
+  let customerGrid = Ext.create('Ext.grid.Panel', {
     renderTo: 'app',
     id: 'customerGrid',
     store: storeCustomer,
@@ -99,9 +105,16 @@ Ext.onReady(function () {
       },
       cellclick(grid, td, cellIndex, record, tr, rowIndex, e, eOpts) {
         if (cellIndex !== 11) {
+          customerGrid.setDisabled(true);
           customerFormAction = actions.update;
-          customerForm.setHidden(false);
+          customerForm.show();
+          //fix binding betwwen datefield & datecolumn
+          record.set(
+            're_examination_date',
+            record.get('re_examination_date').split('/').reverse().join('-')
+          );
           customerForm.loadRecord(record);
+          //customerForm.loadRecord(record);
           customerForm.query('#btnResetCustomerForm')[0].setDisabled(true);
           submitButton = customerForm.query('#btnSubmitCustomerForm')[0];
           submitButton.setText(actions.update.label);
@@ -118,8 +131,9 @@ Ext.onReady(function () {
         text: actions.create.label,
         listeners: {
           click: () => {
+            customerGrid.setDisabled(true);
             customerFormAction = actions.create;
-            customerForm.setHidden(false);
+            customerForm.show();
             customerForm.reset();
             resetButton = customerForm.query('#btnResetCustomerForm')[0];
             resetButton.setDisabled(false);
@@ -255,7 +269,11 @@ Ext.onReady(function () {
         width: 120,
         dataIndex: 'phone',
       },
-
+      {
+        text: 'Địa chỉ',
+        width: 120,
+        dataIndex: 'address',
+      },
       {
         text: 'Tuổi',
         width: 60,
@@ -265,7 +283,7 @@ Ext.onReady(function () {
         text: 'Giới tính',
         width: 80,
         dataIndex: 'gender',
-        renderer: (v, _, r) => (v === 0 ? 'Nữ' : 'Nam'),
+        renderer: (v) => (v === 0 ? 'Nữ' : 'Nam'),
       },
       {
         text: 'Nghề nghiệp',
@@ -278,11 +296,12 @@ Ext.onReady(function () {
         dataIndex: 'disease_type',
       },
       {
-        xtype: 'datecolumn',
-        format: 'd/m/Y',
+        //xtype: 'datecolumn',
+        //format: 'd/m/Y',
         text: 'Ngày tái khám',
         width: 120,
         dataIndex: 're_examination_date',
+        renderer: (v) => v.split('-').reverse().join('/'),
       },
       {
         text: 'Khám thường niên',
@@ -330,6 +349,5 @@ Ext.onReady(function () {
         ],
       },
     ],
-    hidden: false,
   });
 });

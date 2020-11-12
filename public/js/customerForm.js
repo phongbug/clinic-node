@@ -29,9 +29,15 @@ var customerForm = Ext.create('Ext.form.Panel', {
   tools: [
     {
       type: 'close',
-      handler: () => customerForm.setHidden(true),
+      handler: () => {
+        customerForm.hide();
+        Ext.getCmp('customerGrid').enable();
+      },
     },
   ],
+  listeners: {
+    hide: () => Ext.getCmp('customerGrid').enable(),
+  },
   defaultType: 'textfield',
   defaultStyle: {
     height: '50px',
@@ -106,6 +112,7 @@ var customerForm = Ext.create('Ext.form.Panel', {
       value: new Date(),
       //format:'H:i d/m/Y'
       format: 'd/m/Y',
+      altFormats: 'c',
     },
     {
       xtype: 'numberfield',
@@ -144,8 +151,8 @@ var customerForm = Ext.create('Ext.form.Panel', {
       disabled: false,
       handler: function () {
         var form = this.up('form').getForm();
-        let values = form.getValues();
-        log(values);
+        //let values = form.getValues();
+        //log(values);
         if (form.isValid()) {
           this.setIcon('img/loading.gif');
           form.submit({
@@ -171,11 +178,18 @@ var customerForm = Ext.create('Ext.form.Panel', {
                     break;
                   case 'update':
                     let record = form.getValues();
+                    // fix binding betwwen datefield & datecolumn
+                    record.re_examination_date = record.re_examination_date
+                      .split('-')
+                      .reverse()
+                      .join('/');
+                    log(record);
                     var removedRecord = store.findRecord('id', record.id);
                     var recordIndex = store.indexOf(removedRecord);
                     store.remove(removedRecord);
                     store.insert(recordIndex, record);
                     grid.getView().addRowCls(recordIndex, 'success');
+                    customerForm.hide();
                     break;
                   case 'delete':
                     break;
