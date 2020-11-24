@@ -1,4 +1,3 @@
-let changePWDFormAction = { icon: '' };
 var changePWDForm = Ext.create('Ext.Panel', {
   id: 'changePWDForm',
   layout: 'center',
@@ -11,8 +10,7 @@ var changePWDForm = Ext.create('Ext.Panel', {
       xtype: 'form',
       bodyStyle: 'background:transparent',
       title: 'Thay đổi mật khẩu',
-      icon:
-        'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-9/16/Generate-keys-icon.png',
+      icon: changePWDFormAction.icon,        
       bodyPadding: 15,
       width: 350,
       layout: 'anchor',

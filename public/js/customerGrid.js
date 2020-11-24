@@ -243,7 +243,7 @@ Ext.onReady(function () {
         dock: 'right',
         listeners: {
           click: () => {
-            localStorage.removeItem('token');
+            localStorage.removeItem('authToken');
             location.reload();
           },
         },

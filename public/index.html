@@ -59,11 +59,11 @@
 				document.getElementsByTagName('body')[0].appendChild(script)
 			},
 			isAuthenticated = () => {
-				let token = localStorage.getItem('token')
-				if (!token) return false
+				let authToken = localStorage.getItem('authToken')
+				if (!authToken) return false
 				var crypt = new JSEncrypt()
 				crypt.setKey(tokenPrivateKey)
-				let decyptedData = crypt.decrypt(token);
+				let decyptedData = crypt.decrypt(authToken);
 				//log(decyptedData)
 				if (decyptedData) {
 					let d1 = new Date().getTime(),

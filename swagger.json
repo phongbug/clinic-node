@@ -169,10 +169,10 @@
         "success": {
           "type": "boolean"
         },
-        "token": {
+        "authToken": {
           "type": "string",
           "schema": {
-            "$ref": "#/definitions/token"
+            "$ref": "#/definitions/authToken"
           }
         },
         "message": {
@@ -180,7 +180,7 @@
         }
       }
     },
-    "token": {
+    "authToken": {
       "properties": {
         "expiredDate": {
           "type": "number"
