@@ -19,8 +19,6 @@ var customerForm = Ext.create('Ext.form.Panel', {
   },
   frame: true,
   hidden: true,
-  collapsible: true,
-  resizable: true,
   draggable: true,
   layout: 'anchor',
   defaults: {
@@ -37,6 +35,8 @@ var customerForm = Ext.create('Ext.form.Panel', {
   ],
   listeners: {
     hide: () => Ext.getCmp('customerGrid').enable(),
+    show: () =>
+      Ext.getCmp('btnSubmitCustomerForm').setIconCls(customerFormAction.iconCls),
   },
   defaultType: 'textfield',
   defaultStyle: {
@@ -138,20 +138,20 @@ var customerForm = Ext.create('Ext.form.Panel', {
       text: 'Làm mới',
       handler: function () {
         this.up('form').getForm().reset();
-        log(customerFormAction.name);
       },
       id: 'btnResetCustomerForm',
     },
     {
       id: 'btnSubmitCustomerForm',
       text: customerFormAction.label,
-      icon: customerFormAction.icon,
       formBind: true,
       disabled: false,
       handler: function () {
         var form = this.up('form').getForm();
         if (form.isValid()) {
-          this.setIcon('img/loading.gif');
+          let button = this;
+          button.setIconCls('spinner');
+          button.disable();
           form.submit({
             url: hostAPI + '/customer/' + customerFormAction.name,
             success: function (form, action) {
@@ -167,7 +167,7 @@ var customerForm = Ext.create('Ext.form.Panel', {
                       rIndex = store.getData().getCount();
                     // fix bind new r(just added) to form
                     r.re_examination_date = r.re_examination_date.substr(0, 10);
-                    r.gender = +r.gender
+                    r.gender = +r.gender;
                     store.insert(rIndex, r);
                     customerForm.reset();
                     grid.getView().addRowCls(rIndex, 'success');
@@ -188,19 +188,15 @@ var customerForm = Ext.create('Ext.form.Panel', {
                     grid.getView().addRowCls(recordIndex, 'success');
                     customerForm.hide();
                     break;
-                  case 'delete':
-                    break;
                 }
               }
-              Ext.getCmp('btnSubmitCustomerForm').setIcon(
-                customerFormAction.icon
-              );
+              button.enable();
+              button.setIconCls(customerFormAction.icon);
             },
             failure: function (form, action) {
-              Ext.Msg.alert('Thông báo lỗi', action.result.message);
-              Ext.getCmp('btnSubmitCustomerForm').setIcon(
-                customerFormAction.icon
-              );
+              Ext.Msg.alert('Thông báo', action.result.message);
+              button.setIconCls('update');
+              button.enable();
             },
           });
         }

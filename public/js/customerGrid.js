@@ -25,12 +25,14 @@ let Groups,
     create: {
       name: 'create',
       label: 'Thêm bệnh nhân mới',
+      iconCls: 'add',
       icon:
         'https://icons.iconarchive.com/icons/icojam/blue-bits/16/user-add-icon.png',
     },
     update: {
       name: 'update',
       label: 'Cập nhật',
+      iconCls: 'update',
       icon:
         'https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-9/16/edit-file-icon.png',
     },

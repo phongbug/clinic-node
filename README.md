@@ -22,3 +22,9 @@ yarn start
 - Route is not specify (wrong inside function)
 
 ## Notes
+
+
+## Use Sequelize-cli
+
+  npm install --save-dev sequelize-cli
+

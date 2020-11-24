@@ -14,6 +14,7 @@ var changePWDForm = Ext.create('Ext.Panel', {
       bodyPadding: 15,
       width: 350,
       layout: 'anchor',
+      frame: true,
       defaults: {
         anchor: '100%',
       },

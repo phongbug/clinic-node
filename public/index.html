@@ -15,37 +15,14 @@
 	<script src="js/jsencrypt.min.js"></script>
 	<link rel="shortcut icon" href="https://icons.iconarchive.com/icons/dapino/medical/24/stethoscope-icon.png"
 		type="image/x-icon" />
-	<style>
-		.spinner {
-			width: 16px;
-			height: 16px;
-			border: 4px #ddd solid;
-			border-top: 4px #2e93e6 solid;
-			border-radius: 50%;
-			animation: sp-anime 0.8s infinite linear;
-		}
-
-		@keyframes sp-anime {
-			100% {
-				transform: rotate(360deg);
-			}
-		}
-		.center {
-			position: absolute;
-			left: 50%;
-			top: 10%;
-			-webkit-transform: translate(-50%, -50%);
-			transform: translate(-50%, -50%);
-		}
-	</style>
 </head>
 
 <body>
 	<div id="app">
-        <div id="center" class="center">
+		<div id="center" class="center">
 			<div id="loading" class="spinner"></div>
-		 </div>
-    </div>
+		</div>
+	</div>
 	<script>
 		function isLocalhost() {
 			return window.location.host.indexOf('localhost') > -1 || window.location.host.indexOf('192.168.1.47') > -1

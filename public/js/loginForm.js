@@ -1,4 +1,7 @@
-﻿let changePWDFormAction = { icon: 'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-9/16/Generate-keys-icon.png', };
+﻿let changePWDFormAction = {
+  icon:
+    'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-9/16/Generate-keys-icon.png',
+};
 Ext.onReady(() => {
   var loginForm = Ext.create('Ext.Panel', {
     id: 'loginForm',
@@ -12,9 +15,10 @@ Ext.onReady(() => {
         bodyStyle: 'background:transparent',
         title: 'Nhập mật khẩu',
         bodyPadding: 15,
-        width: 190,
+        width: 240,
         url: hostAPI + '/user/login',
         layout: 'anchor',
+        frame: true,
         defaults: {
           anchor: '100%',
         },
@@ -38,8 +42,8 @@ Ext.onReady(() => {
         ],
         buttons: [
           {
-			text: 'Đổi mật khẩu',
-			icon: changePWDFormAction.icon,
+            text: 'Đổi mật khẩu',
+            icon: changePWDFormAction.icon,
             handler: function () {
               Ext.getCmp('loginForm').hide();
               Ext.getCmp('changePWDForm').show();
@@ -49,6 +53,8 @@ Ext.onReady(() => {
             text: 'Đăng nhập',
             formBind: true,
             disabled: true,
+            icon:
+              'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/16/Keys-icon.png',
             handler: function () {
               let me = this;
               var form = this.up('form').getForm();
