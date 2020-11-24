@@ -135,7 +135,7 @@ var customerForm = Ext.create('Ext.form.Panel', {
     {
       icon:
         'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/16/Refresh-icon.png',
-      text: 'Reset',
+      text: 'Làm mới',
       handler: function () {
         this.up('form').getForm().reset();
         log(customerFormAction.name);
@@ -167,11 +167,11 @@ var customerForm = Ext.create('Ext.form.Panel', {
                       rIndex = store.getData().getCount();
                     // fix bind new r(just added) to form
                     r.re_examination_date = r.re_examination_date.substr(0, 10);
+                    r.gender = +r.gender
                     store.insert(rIndex, r);
-                    // reset form
                     customerForm.reset();
-
                     grid.getView().addRowCls(rIndex, 'success');
+                    customerForm.hide();
                     break;
                   case 'update':
                     let record = form.getValues();

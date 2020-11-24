@@ -1,5 +1,6 @@
 ﻿Ext.onReady(() => {
 	var loginForm = Ext.create('Ext.Panel', {
+		id:'loginForm',
 		layout: 'center',
 		border: false,
 		bodyStyle: 'background:transparent',
@@ -7,14 +8,22 @@
 		items: [{
 			xtype: 'form',
 			bodyStyle: 'background:transparent',
-			title: 'Type Password',
+			title: 'Nhập mật khẩu',
 			bodyPadding: 15,
-			width: 170,
+			width: 190,
 			url: hostAPI + '/user/login',
 			layout: 'anchor',
 			defaults: {
 				anchor: '100%'
 			},
+			icon :'https://icons.iconarchive.com/icons/hopstarter/soft-scraps/16/Lock-Unlock-icon.png',
+			listeners: {
+				afterrender: () => {
+				  var loading = document.getElementById('loading');
+				  loading.classList.remove('spinner');
+				  loadScript('js/changePWDForm.js')
+				},
+			  },
 			defaultType: 'textfield',
 			items: [{
 				inputType: 'password',
@@ -23,12 +32,13 @@
 				allowBlank: false
 			}],
 			buttons: [{
-				text: 'Reset',
+				text: 'Đổi mật khẩu',
 				handler: function () {
-					this.up('form').getForm().reset();
+					Ext.getCmp('loginForm').hide()
+					Ext.getCmp('changePWDForm').show()
 				}
 			}, {
-				text: 'Login',
+				text: 'Đăng nhập',
 				formBind: true,
 				disabled: true,
 				handler: function () {

@@ -24,7 +24,7 @@ let Groups,
   actions = {
     create: {
       name: 'create',
-      label: 'Thêm',
+      label: 'Thêm bệnh nhân mới',
       icon:
         'https://icons.iconarchive.com/icons/icojam/blue-bits/16/user-add-icon.png',
     },
@@ -141,7 +141,7 @@ Ext.onReady(function () {
         id: 'btnRefresh',
         icon:
           'https://icons.iconarchive.com/icons/graphicloads/100-flat/16/reload-icon.png',
-        text: 'Refresh',
+        text: 'Nạp lại danh sách',
         listeners: {
           click: () => {
             storeCustomer.clearFilter();
@@ -217,7 +217,13 @@ Ext.onReady(function () {
                       item
                         .get('phone')
                         .toLowerCase()
-                        .indexOf(searchValue.toLowerCase()) > -1
+                        .indexOf(searchValue.toLowerCase()) > -1 ||
+                      item
+                        .get('re_examination_date')
+                        .split('-')
+                        .reverse()
+                        .join('/')
+                        .indexOf(searchValue) > -1
                     );
                   },
                 }),
@@ -244,7 +250,7 @@ Ext.onReady(function () {
       },
     ],
     columns: [
-      new Ext.grid.RowNumberer({ dataIndex: 'no', text: 'No.', width: 60 }),
+      new Ext.grid.RowNumberer({ dataIndex: 'no', text: 'STT', width: 60 }),
       {
         text: 'ID',
         width: 50,
