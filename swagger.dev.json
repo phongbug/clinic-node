@@ -45,6 +45,37 @@
         }
       }
     },
+    "/user/change-pwd": {
+      "parameters": [
+        {
+          "name": "password",
+          "in": "body",
+          "required": true,
+          "description": "old password",
+          "type": "string"
+        },
+        {
+          "name": "newPassword",
+          "in": "body",
+          "required": true,
+          "description": "new password",
+          "type": "string"
+        }
+      ],
+      "put": {
+        "tags": ["THE CLINIC API"],
+        "description": "Change password",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Change password response",
+            "schema": {
+              "$ref": "#/definitions/changePasswordResponse"
+            }
+          }
+        }
+      }
+    },
     "/customer/create": {
       "post": {
         "tags": ["THE CLINIC API"],
@@ -76,7 +107,7 @@
     "/customer/update": {
       "put": {
         "tags": ["THE CLINIC API"],
-        "description": "Updarw a customer",
+        "description": "Update a customer",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -174,6 +205,17 @@
           "schema": {
             "$ref": "#/definitions/authToken"
           }
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "changePasswordResponse": {
+      "required": ["success"],
+      "properties": {
+        "success": {
+          "type": "boolean"
         },
         "message": {
           "type": "string"

@@ -26,6 +26,7 @@ let Groups,
       name: 'create',
       label: 'Thêm bệnh nhân mới',
       iconCls: 'add',
+      method: 'POST',
       icon:
         'https://icons.iconarchive.com/icons/icojam/blue-bits/16/user-add-icon.png',
     },
@@ -33,6 +34,7 @@ let Groups,
       name: 'update',
       label: 'Cập nhật',
       iconCls: 'update',
+      method: 'PUT',
       icon:
         'https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-9/16/edit-file-icon.png',
     },
@@ -332,7 +334,7 @@ Ext.onReady(function () {
                     var recordIndex = store.indexOf(record);
                     var id = grid.getStore().getAt(recordIndex).get('id');
                     Ext.Ajax.request({
-                      method: 'GET',
+                      method: 'DELETE',
                       url: hostAPI + '/customer/delete/' + id,
                       success: function (response) {
                         //log(response);

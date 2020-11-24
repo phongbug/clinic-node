@@ -16,3 +16,7 @@ public/WLs.json
 package-lock.json
 
 public/js/gridWL.js
+
+config_/
+
+models_/
