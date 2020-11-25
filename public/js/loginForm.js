@@ -1,6 +1,6 @@
 ﻿let changePWDFormAction = {
   icon:
-    'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-9/16/Generate-keys-icon.png',
+    'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-9/16/Generate-keys-icon.png'
 };
 Ext.onReady(() => {
   var loginForm = Ext.create('Ext.Panel', {

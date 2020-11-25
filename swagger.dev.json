@@ -48,18 +48,14 @@
     "/user/change-pwd": {
       "parameters": [
         {
-          "name": "password",
+          "name": "changePasswordRequest",
           "in": "body",
           "required": true,
-          "description": "old password",
-          "type": "string"
-        },
-        {
-          "name": "newPassword",
-          "in": "body",
-          "required": true,
-          "description": "new password",
-          "type": "string"
+          "description": "the password infos to be saved",
+          "type": "string",
+          "schema": {
+            "$ref": "#/definitions/changePasswordRequest"
+          }
         }
       ],
       "put": {
@@ -207,6 +203,17 @@
           }
         },
         "message": {
+          "type": "string"
+        }
+      }
+    },
+    "changePasswordRequest": {
+      "required": ["password", "newPassword"],
+      "properties": {
+        "password": {
+          "type": "string"
+        },
+        "newPassword": {
           "type": "string"
         }
       }
