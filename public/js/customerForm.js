@@ -36,7 +36,9 @@ var customerForm = Ext.create('Ext.form.Panel', {
   listeners: {
     hide: () => Ext.getCmp('customerGrid').enable(),
     show: () =>
-      Ext.getCmp('btnSubmitCustomerForm').setIconCls(customerFormAction.iconCls),
+      Ext.getCmp('btnSubmitCustomerForm').setIconCls(
+        customerFormAction.iconCls
+      ),
   },
   defaultType: 'textfield',
   defaultStyle: {
@@ -154,6 +156,7 @@ var customerForm = Ext.create('Ext.form.Panel', {
           button.disable();
           form.submit({
             url: hostAPI + '/customer/' + customerFormAction.name,
+            method: customerFormAction.method,
             success: function (form, action) {
               if (!action.result.success)
                 Ext.Msg.alert('Kểt Quả', action.result.message);

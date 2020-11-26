@@ -10,7 +10,7 @@ var changePWDForm = Ext.create('Ext.Panel', {
       xtype: 'form',
       bodyStyle: 'background:transparent',
       title: 'Thay đổi mật khẩu',
-      icon: changePWDFormAction.icon,        
+      icon: changePWDFormAction.icon,
       bodyPadding: 15,
       width: 350,
       layout: 'anchor',
@@ -39,7 +39,7 @@ var changePWDForm = Ext.create('Ext.Panel', {
           fieldLabel: 'Mật khẩu hiện tại',
           labelWidth: 130,
           inputType: 'password',
-          name: 'currentPassword',
+          name: 'password',
           allowBlank: false,
         },
         {
@@ -52,9 +52,11 @@ var changePWDForm = Ext.create('Ext.Panel', {
         {
           fieldLabel: 'Lập lại mật khẩu mới',
           labelWidth: 130,
+          id: 'txt',
           inputType: 'password',
           name: 'newPasswordConfirm',
           allowBlank: false,
+          //validator: () => {},
         },
       ],
       buttons: [
@@ -70,30 +72,41 @@ var changePWDForm = Ext.create('Ext.Panel', {
         {
           id: 'btnSubmitChangePWDForm',
           text: 'Đổi mật khẩu',
-          icon: changePWDFormAction.icon,
+          iconCls: 'change-password-btn',
           formBind: true,
           disabled: false,
           handler: function () {
             var form = this.up('form').getForm();
             if (form.isValid()) {
-              this.setIcon('img/loading.gif');
+              let button = this;
+              button.setIconCls('spinner');
+              // compare password
+              var newPassword = Ext.ComponentQuery.query(
+                'textfield[name="newPassword"]'
+              )[0].getValue();
+              var newPasswordConfirm = Ext.ComponentQuery.query(
+                'textfield[name="newPasswordConfirm"]'
+              )[0].getValue();
+              if (newPassword !== newPasswordConfirm) {
+                Ext.Msg.alert('Thông báo', 'Mật khẩu không trùng khớp');
+                button.setIconCls('change-password-btn');
+                return;
+              }
               form.submit({
-                url: hostAPI + '/customer/' + changePWDFormAction.name,
+                url: hostAPI + '/user/change-pwd',
+                method: 'PUT',
                 success: function (form, action) {
-                  if (!action.result.success)
-                    Ext.Msg.alert('Kểt Quả', action.result.message);
-                  else {
+                  if (action.result.success) {
+                    Ext.getCmp('loginForm').show();
+                    changePWDForm.hide();
                   }
-                  Ext.getCmp('btnSubmitChangePWDForm').setIcon(
-                    changePWDFormAction.icon
-                  );
-                  Ext.getCmp('loginForm').show();
+                  Ext.Msg.alert('Kểt Quả', action.result.message);
+                  button.setIconCls('change-password-btn');
                 },
                 failure: function (form, action) {
+                  log(action.result);
                   Ext.Msg.alert('Thông báo lỗi', action.result.message);
-                  Ext.getCmp('btnSubmitChangePWDForm').setIcon(
-                    changePWDFormAction.icon
-                  );
+                  button.setIconCls('change-password-btn');
                 },
               });
             }

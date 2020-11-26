@@ -1,19 +1,17 @@
-const dbConfig =
-  process.env.NODE_ENV === 'production'
-    ? require('../config/db.config.js')
-    : require('../config/db.config.dev.js');
+const env = process.env.NODE_ENV || 'production',
+  dbConfig = require('../config/db.config.json')[env];
 
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-  host: dbConfig.HOST,
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+  host: dbConfig.host,
   dialect: dbConfig.dialect,
-  operatorsAliases: false,
+  operatorsAliases: 0,
 
   pool: {
-    max: dbConfig.pool.max,
-    min: dbConfig.pool.min,
-    acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle,
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
   },
 });
 
@@ -23,5 +21,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.customer = require('./customer.js')(sequelize, Sequelize);
+db.user = require('./user.js')(sequelize, Sequelize);
 
 module.exports = db;
