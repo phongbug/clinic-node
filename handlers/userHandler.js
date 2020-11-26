@@ -54,7 +54,7 @@ const JSEncrypt = require('node-jsencrypt'),
           if (user.length === 0) {
             res.send({
               success: false,
-              message: 'Mật khảu sai.',
+              message: 'Mật khẩu sai.',
             });
             return;
           }
@@ -69,7 +69,7 @@ const JSEncrypt = require('node-jsencrypt'),
             if (num[0] === 1) {
               res.send({
                 success: true,
-                message: 'Mật khảu đổi thành công.',
+                message: 'Mật khẩu đổi thành công.',
               });
             } else {
               res.send({
