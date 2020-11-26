@@ -56,7 +56,7 @@ var changePWDForm = Ext.create('Ext.Panel', {
           inputType: 'password',
           name: 'newPasswordConfirm',
           allowBlank: false,
-          validator: () => {},
+          //validator: () => {},
         },
       ],
       buttons: [
@@ -72,7 +72,7 @@ var changePWDForm = Ext.create('Ext.Panel', {
         {
           id: 'btnSubmitChangePWDForm',
           text: 'Đổi mật khẩu',
-          icon: changePWDFormAction.icon,
+          iconCls: 'change-password-btn',
           formBind: true,
           disabled: false,
           handler: function () {
@@ -87,28 +87,26 @@ var changePWDForm = Ext.create('Ext.Panel', {
               var newPasswordConfirm = Ext.ComponentQuery.query(
                 'textfield[name="newPasswordConfirm"]'
               )[0].getValue();
-              log(
-                'pass 1 = ' + newPassword + '--pass 2 = ' + newPasswordConfirm
-              );
-              if (newPassword !== newPassword) {
+              if (newPassword !== newPasswordConfirm) {
                 Ext.Msg.alert('Thông báo', 'Mật khẩu không trùng khớp');
+                button.setIconCls('change-password-btn');
                 return;
               }
-
               form.submit({
-                url: hostAPI + '/customer/change-pwd',
+                url: hostAPI + '/user/change-pwd',
                 method: 'PUT',
                 success: function (form, action) {
-                  if (!action.result.success)
-                    Ext.Msg.alert('Kểt Quả', action.result.message);
-                  else {
+                  if (action.result.success) {
+                    Ext.getCmp('loginForm').show();
+                    changePWDForm.hide();
                   }
-                  button.setIconCls.setIconCls(changePWDFormAction.icon);
-                  Ext.getCmp('loginForm').show();
+                  Ext.Msg.alert('Kểt Quả', action.result.message);
+                  button.setIconCls('change-password-btn');
                 },
                 failure: function (form, action) {
+                  log(action.result);
                   Ext.Msg.alert('Thông báo lỗi', action.result.message);
-                  button.setIconCls.setIconCls(changePWDFormAction.icon);
+                  button.setIconCls('change-password-btn');
                 },
               });
             }

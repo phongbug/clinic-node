@@ -1,6 +1,6 @@
 ﻿let changePWDFormAction = {
   icon:
-    'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-9/16/Generate-keys-icon.png'
+    '',
 };
 Ext.onReady(() => {
   var loginForm = Ext.create('Ext.Panel', {
@@ -23,8 +23,7 @@ Ext.onReady(() => {
         defaults: {
           anchor: '100%',
         },
-        icon:
-          'https://icons.iconarchive.com/icons/hopstarter/soft-scraps/16/Lock-Unlock-icon.png',
+        iconCls: 'login-form-title',
         listeners: {
           afterrender: () => {
             var loading = document.getElementById('loading');
@@ -44,7 +43,7 @@ Ext.onReady(() => {
         buttons: [
           {
             text: 'Đổi mật khẩu',
-            icon: changePWDFormAction.icon,
+            iconCls: 'change-password-btn',
             handler: function () {
               Ext.getCmp('loginForm').hide();
               Ext.getCmp('changePWDForm').show();
@@ -54,8 +53,7 @@ Ext.onReady(() => {
             text: 'Đăng nhập',
             formBind: true,
             disabled: true,
-            icon:
-              'https://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/16/Keys-icon.png',
+            iconCls: 'login-btn',
             handler: function () {
               let me = this;
               var form = this.up('form').getForm();
@@ -71,13 +69,13 @@ Ext.onReady(() => {
                       let authToken = action.result.authToken;
                       localStorage.setItem('authToken', authToken);
                       document.getElementById('app').innerHTML = '';
-                      me.setIconCls('');
+                      me.setIconCls('login-btn');
                       me.enable();
                       loadScript('js/customerGrid.js');
                     }
                   },
                   failure: function (form, action) {
-                    me.setIconCls('');
+                    me.setIconCls('login-btn');
                     me.enable();
                     Ext.Msg.alert('Failed', action.result.message);
                   },

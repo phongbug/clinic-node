@@ -20,3 +20,5 @@ public/js/gridWL.js
 config_/
 
 models_/
+
+models/index_sequelize_cli.js
