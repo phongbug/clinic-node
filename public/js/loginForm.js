@@ -9,6 +9,7 @@ Ext.onReady(() => {
     border: false,
     bodyStyle: 'background:transparent',
     bodyPadding: '50%',
+    renderTo: 'app',
     items: [
       {
         xtype: 'form',
@@ -87,6 +88,5 @@ Ext.onReady(() => {
         ],
       },
     ],
-    renderTo: 'app',
   });
 });
