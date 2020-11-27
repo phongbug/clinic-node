@@ -16,7 +16,11 @@
     },
     {
       "url": "https://clinicx-api.herokuapp.com",
-      "description": "Production server (uses live data)"
+      "description": "Test server"
+    },
+    {
+      "url": "https://bieudo.xyz",
+      "description": "Production server"
     }
   ],
   "tags": [

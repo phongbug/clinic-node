@@ -28,3 +28,9 @@ yarn start
 
   npm install --save-dev sequelize-cli
 
+## Cpanel hosting
+
+- Create db
+- Create user
+- Add privileges [bieudoxy_clinic](http://prntscr.com/vr4esa)
+- Add remote if need

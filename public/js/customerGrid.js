@@ -310,6 +310,7 @@ Ext.onReady(function () {
         text: 'Khám thường niên',
         width: 150,
         dataIndex: 'annual_examination',
+        renderer: (v) => v + ' Lần / năm',
       },
       {
         text: 'Ghi chú',
