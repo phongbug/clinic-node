@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "phonglon_clinicx",
-    "password": "$]j$L,*lu2Xd",
-    "database": "phonglon_clinic",
-    "host": "103.130.216.111",
+    "username": "bieudoxy_user",
+    "password": "=zq)nb+u9~Fn",
+    "database": "bieudoxy_clinic",
+    "host": "103.130.216.96",
     "dialect": "mysql"
   }
 }

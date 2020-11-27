@@ -40,7 +40,7 @@ const db = require('../models'),
       res.send({ success: false, message: error.message });
     }
   },
-  list = (_, res) => {
+  list = (req, res) => {
     Customer.findAll()
       .then((data) => {
         res.send(data);

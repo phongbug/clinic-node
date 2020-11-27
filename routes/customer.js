@@ -5,6 +5,7 @@ const express = require('express'),
 
 router.post('/create', customerHandler.create);
 router.put('/update', customerHandler.update);
+//router.get('/list', requireAuth, customerHandler.list);
 router.get('/list', customerHandler.list);
 router.delete('/delete/:id', customerHandler.deleteCustomer);
 
