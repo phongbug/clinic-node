@@ -14,9 +14,9 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "bieudoxy_user",
-    "password": "=zq)nb+u9~Fn",
-    "database": "bieudoxy_clinic",
+    "username": "bsngoctu_uan",
+    "password": "Bi;^Mpvr!0yc",
+    "database": "bsngoctu_pk",
     "host": "103.130.216.96",
     "dialect": "mysql"
   }
