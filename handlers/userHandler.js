@@ -1,5 +1,6 @@
 const JSEncrypt = require('node-jsencrypt'),
   crypt = new JSEncrypt(),
+  CryptoJS = require('crypto-js'),
   expiredTokenDate = 0.1 * 3600 * 1000,
   defaultUser = 'admin',
   tokenPublicKey =
@@ -89,9 +90,42 @@ const JSEncrypt = require('node-jsencrypt'),
     } catch (error) {
       res.send({ success: false, message: error.message });
     }
+  },
+  getLoginStatus = (req, res) => {
+    try {
+      let token = req.cookies['authToken'],
+        status = false;
+      if (!token) {
+        res.send({ success: false, message: 'cookie does not exist' });
+        return;
+      }
+      let decyptedData = CryptoJS.AES.decrypt(
+        decodeURIComponent(token),
+        'A20(*)I(*)21B'
+      ).toString(CryptoJS.enc.Utf8);
+      //console.log(decyptedData);
+      if (decyptedData) {
+        let d1 = new Date().getTime(),
+          d2 = new Date(JSON.parse(decyptedData).expiredDate).getTime();
+        //log(d1 - d2);
+        status = d1 - d2 <= 0;
+      }
+      res.send({
+        success: status,
+        message: token,
+        date: new Date(JSON.parse(decyptedData).expiredDate).toLocaleString(),
+        // d1: d1,
+        // d2: d2,
+        // d1d2: d1 - d2,
+        // d2d1: d2 - d1,
+      });
+    } catch (error) {
+      res.send({ success: false, message: error.message });
+    }
   };
 
 module.exports = {
   login,
   changePwd,
+  getLoginStatus,
 };

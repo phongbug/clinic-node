@@ -49,7 +49,10 @@ let Groups,
   },
   customerFormAction = actions.create;
 Ext.onReady(function () {
-  if (!isAuthenticated()) return;
+  // authenticate((isAuthenticated) =>
+  //   !isAuthenticated ? location.reload() : null
+  // );
+
   Ext.define('Customer', {
     extend: 'Ext.data.Model',
     fields: [

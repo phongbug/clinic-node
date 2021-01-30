@@ -55,6 +55,7 @@ Ext.onReady(() => {
             disabled: true,
             iconCls: 'login-btn',
             handler: function () {
+              
               let me = this;
               var form = this.up('form').getForm();
               me.setIconCls('spinner');
@@ -66,8 +67,8 @@ Ext.onReady(() => {
                       Ext.Msg.alert('Login Failed', action.result.message);
                       me.enable();
                     } else {
-                      let authToken = action.result.authToken;
-                      localStorage.setItem('authToken', authToken);
+                      //let authToken = action.result.authToken;
+                      //localStorage.setItem('authToken', authToken);
                       document.getElementById('app').innerHTML = '';
                       me.setIconCls('login-btn');
                       me.enable();
